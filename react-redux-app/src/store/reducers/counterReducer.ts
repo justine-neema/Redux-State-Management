@@ -1,22 +1,39 @@
-import { INCREMENT, DECREMENT, RESET } from "../actions/counterActions";
+import {
+  DECREMENT,
+  INCREMENT,
+  RESET,
+  SET_VALUE,
+} from "../actions/counterActions";
 
-interface CounterState {
-    value: number;
+export interface CounterState {
+  value: number;
 }
 
 const initialState: CounterState = {
-    value: 0,
+  value: 0,
 };
 
-const counterReducer = (state = initialState, action: any): CounterState => {
-    switch (action.type) {
-        case INCREMENT:
-            return { value: state.value + 1 };
-        case DECREMENT:
-            return { value: state.value - 1 };
-        case RESET:
-            return { value: 0 };
-        default:
-            return state;
-    }
+type CounterAction = {
+  type: string;
+  payload?: number;
+};
+
+export const counterReducer = (
+  state: CounterState = initialState,
+  action: CounterAction
+): CounterState => {
+  switch (action.type) {
+    case INCREMENT:
+      return { value: state.value + 1 };
+    case DECREMENT:
+      return { value: state.value - 1 };
+    case RESET:
+      return { value: 0 };
+    case SET_VALUE:
+      return {
+        value: typeof action.payload === "number" ? action.payload : state.value,
+      };
+    default:
+      return state;
+  }
 };
